@@ -1,10 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   libft.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pcheron <pcheron@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/06 16:56:59 by pcheron           #+#    #+#             */
+/*   Updated: 2023/08/06 16:58:30 by pcheron          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../include/pipex.h"
+
+int ft_strlen(char *str)
+{
+    int i;
+
+    i = 0;
+    while (str && str[i])
+        i++;
+    return (i);
+}
 
 void    ft_memcpy(char *dest, char *src, int i)
 {
     int j;
 
+    if (!dest || !src)
+        return ;
     if (src < dest)
     {
         j = 0;
@@ -24,6 +47,20 @@ void    ft_memcpy(char *dest, char *src, int i)
     }
 }
 
+bool    ft_is_char_in_str(char c, char *str)
+{
+    if (str)
+    {
+        while (*str)
+        {
+            if (*str == c)
+                return (true);
+            str++;
+        }
+    }
+    return (false);
+}
+
 // option 0 -> on ne free rien
 // option 1 -> free le left
 // option 2 -> free le right
@@ -34,7 +71,7 @@ bool	ft_strjoin(char **pablo, char *left, char *right, int option)
 	int len_right;
 
 	if (!left || !right)
-		return (true);
+		return (write(2, "strjoin : we cant join NULL\n", 29), true);
 	len_left = ft_strlen(left);
 	len_right = ft_strlen(right);
 	*pablo = malloc(len_left + len_right + 1);
