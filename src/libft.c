@@ -6,7 +6,7 @@
 /*   By: pcheron <pcheron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:56:59 by pcheron           #+#    #+#             */
-/*   Updated: 2023/08/06 16:58:30 by pcheron          ###   ########.fr       */
+/*   Updated: 2023/08/08 16:41:19 by pcheron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ bool    ft_is_char_in_str(char c, char *str)
 // option 1 -> free le left
 // option 2 -> free le right
 // option 3 -> free le left et le right
-bool	ft_strjoin(char **pablo, char *left, char *right, int option)
+bool	ft_strjoin(char **dest, char *left, char *right, int option)
 {
 	int len_left;
 	int len_right;
@@ -74,11 +74,11 @@ bool	ft_strjoin(char **pablo, char *left, char *right, int option)
 		return (write(2, "strjoin : we cant join NULL\n", 29), true);
 	len_left = ft_strlen(left);
 	len_right = ft_strlen(right);
-	*pablo = malloc(len_left + len_right + 1);
-	if (!*pablo)
+	*dest = malloc(len_left + len_right + 1);
+	if (!*dest)
 		return (false);
-	ft_memcpy(*pablo, left, len_left);
-	ft_memcpy(*pablo + len_left, left, len_right + 1);
+	ft_memcpy(*dest, left, len_left);
+	ft_memcpy(*dest + len_left, left, len_right + 1);
 	if (option & 1)
 		free(left);
 	if (option & 2)
