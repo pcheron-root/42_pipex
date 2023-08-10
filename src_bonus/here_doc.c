@@ -62,3 +62,27 @@ bool	ft_get_random_name(t_env *env)
 	}
 	return (true);
 }
+
+bool	ft_get_here_doc(char **argv, t_env *env)
+{
+	int			fd;
+	char		*line;
+	static int	i = 1;
+
+	if (!ft_get_random_name(env))
+		return (write(2, "here_doc : allocation failed\n", 30), false);
+	fd = open(env->hd_name, O_WRONLY | O_CREAT, 0774);
+	if (fd == -1)
+		return (free(env->hd_name), write(2, "pipex : here_doc creation failed\n", 34), false);
+	while ("jusqu'ici tout va bien")
+	{
+		write(0, "> ", 2);// ca risque de cassser un truc
+		line = ft_get_next_line(0);
+		if (!ft_strncmp(line, argv[2], ft_strlen(argv[2])) && line[ft_strlen(argv)] == '\n')
+			break ;
+		write(fd, line, ft_strlen(line));
+		free(line);
+		i++;
+	}
+	return (close(fd), true);
+}

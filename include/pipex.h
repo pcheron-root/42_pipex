@@ -11,6 +11,7 @@ typedef struct s_env
 {
     char    **env;
     int     hd_status;
+    int     hd_name;
     int     pipeline[2][2];
 }           t_env;
 
