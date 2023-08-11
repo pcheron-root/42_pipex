@@ -6,11 +6,25 @@
 /*   By: pcheron <pcheron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 13:51:09 by pcheron           #+#    #+#             */
-/*   Updated: 2023/08/05 21:10:50 by pcheron          ###   ########.fr       */
+/*   Updated: 2023/08/11 11:04:40 by pcheron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
+
+void	ft_close(int fd[2])
+{
+	if (fd[0] > 2)
+	{
+		close(fd[0]);
+		fd[0] = 0;
+	}
+	if (fd[1] > 2)
+	{
+		close(fd[0]);
+		fd[1] = 0;
+	}
+}
 
 bool	ft_open_infile(int	*fd, char *file)
 {
@@ -42,24 +56,21 @@ bool	ft_open_outfile(int	*fd, char *file)
 	return (true);
 }
 
-bool	ft_open(int i, char **argv, int	fds[2])
+bool	ft_open(int i, char **argv, int	fd[2])
 {
 	if (!i)
-		return (ft_open_infile(&(fds[0]), argv[1]));
+		return (ft_open_infile(&(fd[0]), argv[1]));
 	else
-		return (ft_open_outfile(&(fds[1]), argv[4]));
+		return (ft_open_outfile(&(fd[1]), argv[4]));
 }
 
-void	ft_close(int fd[2])
+bool	ft_open_bonus(int i, char **argv, t_env *env)
 {
-	if (fd[0] > 2)
+	if (!i)
 	{
-		close(fd[0]);
-		fd[0] = 0;
-	}
-	if (fd[1] > 2)
-	{
-		close(fd[0]);
-		fd[1] = 0;
+		if (env->hd_status)
+			return (ft_open_infile(&(fd[0], env->hd_name)));
+		else
+			return (ft_open_infile(&(fd[0]), argv[1]));
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: pcheron <pcheron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 13:47:37 by pcheron           #+#    #+#             */
-/*   Updated: 2023/08/06 17:02:25 by pcheron          ###   ########.fr       */
+/*   Updated: 2023/08/11 10:55:38 by pcheron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,12 @@ int main(int argc, char **argv, char **env)
 	if (pipe(pip) < 0)
 		return (write(2, "pipe failed\n", 13), 1);
 	i = 0;
-	while (i < argc - 3)
+	while (i < 2)
 	{
 		last_pid = fork();
 		if (last_pid < 0)
 			return (write(2, "pipex : fork failed\n", 21), 1);
-		else if (last_pid == 0)
+		else if (!last_pid)
 			ft_child(i, argv, env, pip);
 		i++;
 	}
