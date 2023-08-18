@@ -6,7 +6,7 @@
 /*   By: pcheron <pcheron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 13:51:09 by pcheron           #+#    #+#             */
-/*   Updated: 2023/08/11 11:04:40 by pcheron          ###   ########.fr       */
+/*   Updated: 2023/08/11 11:08:37 by pcheron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,15 @@ bool	ft_open_bonus(int i, char **argv, t_env *env)
 	if (!i)
 	{
 		if (env->hd_status)
-			return (ft_open_infile(&(fd[0], env->hd_name)));
+			return (ft_open_infile(&(env->fd[0]), env->hd_name));
 		else
-			return (ft_open_infile(&(fd[0]), argv[1]));
+			return (ft_open_infile(&(env->fd[0]), argv[1]));
+	}
+	else if (!argv[i + 3 + env->hd_status])
+	{
+		if (env->hd_status)
+			return (ft_open_outfile(&(fd[1]), argv[4]));
+		else
+			return (ft_open_outfile(&(fd[1]), argv[4]));
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: pcheron <pcheron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 13:47:37 by pcheron           #+#    #+#             */
-/*   Updated: 2023/08/11 10:55:38 by pcheron          ###   ########.fr       */
+/*   Updated: 2023/08/11 12:40:38 by pcheron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,28 @@ void	ft_child(int i, char **argv, char **env, int pipe[2])
 	ft_exec(i, argv, env);
 }
 
+int	ft_exit_status(pid_t last_pid)
+{
+	pid_t	wpid;
+	int		wstatus;
+	int		return_status;
+
+	while (true)
+	{
+		wpid = wait(&wstatus);
+		if (wpid < 0)
+			break ;
+		if (wpid == last_pid)
+		{
+			if (WIFEXITED(wstatus))
+				return_status = WEXITSTATUS(wstatus);
+			else
+				return_status = 128 + WTERMSIG(wstatus);
+		}
+	}
+	return (return_status);
+}
+
 int main(int argc, char **argv, char **env)
 {
     int		i;
@@ -71,6 +93,5 @@ int main(int argc, char **argv, char **env)
 	}
 	close(pip[0]);
 	close(pip[1]);
-    return 0;
+    return (ft_exit_status(last_pid));
 }
-
