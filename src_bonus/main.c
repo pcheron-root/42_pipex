@@ -6,10 +6,49 @@ bool    ft_env_init(int argc, char **argv, char **env, t_env *local_env)
     local_env->env = env;
     if (!strncmp(argv[1], "here_doc", 9))
     {
+		if (argc < 6)
+			return (write(2, "pipex : need more arguments\n", 34), false);
         local_env->hd_status = 1;
-        if (!ft_)
+        if (!ft_)// remplire le hd
     }
     return (true);
+}
+
+void	ft_exec(int i, char **argv, t_env *env)
+{
+	char	**cmd;
+	char	**paths;
+	char	*path;
+
+	cmd = ft_split(argv[i + 2 + env->hd_status], ' '); // modifier en splitbool
+	if (!cmd)
+		exit(1);
+	if (ft_is_char_in_str(cmd[0]))//
+	{
+		execve(cmd[0], cmd, env);
+		ft_free_strs(cmd);
+		exit(127);// voir minishell
+	}
+	if (!ft_get_paths(&paths, env->env))
+		(ft_free_strs(cmd), exit(1));
+	if (!ft_build_path(&path, cmd[0]))
+		(ft_free_strs(cmd), ft_free_strs(paths), exit(1));
+	execve(cmd[0], cmd, env->env);
+	(ft_free_strs(cmd), ft_free_strs(paths), free(path)); // + free les trucs de l'env
+	return (127);
+}
+
+void	ft_child(int i, char **argv, char **env, int pipe[2])
+{
+	int	fd[2];
+
+	fd[0] = 0;
+	fd[1] = 1;
+	if (!ft_open(i, argv, fd))
+		(ft_close(fd), ft_close(pipe), exit (1));
+	if (!ft_dup(i, fd, pipe))
+		(ft_close(fd), ft_close(pipe), exit (1));
+	ft_exec(i, argv, env);
 }
 
 int	ft_exit_status(pid_t last_pid)
